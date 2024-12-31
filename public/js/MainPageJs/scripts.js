@@ -1,6 +1,6 @@
 jQuery( document ).ready( function( $ ) {
 "use strict";
-  
+
   var $main = $( '#spaces-main' ),
   $pages = $main.children( 'section.page-section' ),
   $iterate = $( '#iterateEffects' ),
@@ -20,10 +20,10 @@ jQuery( document ).ready( function( $ ) {
   animEndEventName = animEndEventNames[ Modernizr.prefixed( 'animation' ) ],
   // support css animations
   support = Modernizr.cssanimations;
-  
+
 
   //animate_home();
-  
+
   function animate_home(){
     $('.metro-panel .large-4').each(function( index ) {
       $(this).removeClass('fadeInRightBig');
@@ -37,37 +37,37 @@ jQuery( document ).ready( function( $ ) {
           $('.copyright').delay(1500).fadeIn( "slow" );
          }, (1+index) * 100);
     });
-  } 
-  
+  }
+
   function hide_home(){
     $('.metro-panel .large-4').each(function( index ) {
       $(this).hide();
     });
   }
-  
+
   function animate_menu(){
     $('.vertical-menu > *').addClass('fadeInRight');
-  } 
-   
-  function toogle_menu(){    
+  }
+
+  function toogle_menu(){
     if( $('.vertical-menu').hasClass('close')){
       $('.vertical-menu').removeClass('close');
     }else{
       $('.vertical-menu').addClass('close');
     }
   }
-   
-  function open_menu(){    
+
+  function open_menu(){
     if( $('.vertical-menu').hasClass('close')){
       $('.vertical-menu').removeClass('close');
     }
   }
-   
+
   function close_menu(){
     $('.vertical-menu').addClass('close');
   }
-  
-  
+
+
   if(window.location.hash && window.location.hash != '#home') {
     setTimeout(function() {
       locationHashChanged();
@@ -80,21 +80,21 @@ jQuery( document ).ready( function( $ ) {
   }
 
 
-  
+
   $('.projects-slider ul').responsiveSlides({
     nav: true,
     maxwidth: '400',
     timeout: 3000,
     prevText: "",
     nextText: "",
-    }); 
-   
+    });
+
   $('.project-images ul').responsiveSlides({
     nav: true,
     prevText: "",
     nextText: "",
   });
-  
+
   $('.wd-tweets ul').responsiveSlides({
     nav: true,
     timeout: 4000,
@@ -102,73 +102,73 @@ jQuery( document ).ready( function( $ ) {
     nextText: "",
     before: function(){
       $('.wd-tweets ul li').addClass('animated');
-      $('.wd-tweets ul li').addClass('fadeInUp'); 
+      $('.wd-tweets ul li').addClass('fadeInUp');
     },   // Function: Before callback
     after: function(){
-      
-      $('.wd-tweets ul li').removeClass('fadeInUp'); 
-    } 
+
+      $('.wd-tweets ul li').removeClass('fadeInUp');
+    }
   });
-  
-  
+
+
   // add inline-list calss to Skills fields in project page
   $('.field-name-field-skills ul.links').addClass('inline-list');
-  
-  
-  
+
+
+
   $('.portfolio-item').hover(function() {
         var $this = $(this);
         if(Modernizr.csstransitions) {
             $('.plus-icon', $this).addClass('animated');
             $('.plus-icon', $this).css('display', 'block');
-            $('.plus-icon', $this).removeClass('flipOutX'); 
-            $('.plus-icon', $this).addClass('flip'); 
-            
+            $('.plus-icon', $this).removeClass('flipOutX');
+            $('.plus-icon', $this).addClass('flip');
+
             $('figcaption h3', $this).addClass('animated');
-            $('figcaption h3', $this).removeClass('fadeOutUp'); 
-            $('figcaption h3', $this).addClass('fadeInDown'); 
+            $('figcaption h3', $this).removeClass('fadeOutUp');
+            $('figcaption h3', $this).addClass('fadeInDown');
         }else{
             $('.plus-icon', $this).stop(true, false).fadeIn('fast');
         }
     }, function() {
         var $this = $(this);
         if(Modernizr.csstransitions) {
-            $('.plus-icon', $this).removeClass('flip'); 
+            $('.plus-icon', $this).removeClass('flip');
             $('.plus-icon', $this).addClass('flipOutX');
             $('.plus-icon', $this).css('display', 'none');
             $('.plus-icon', $this).removeClass('animated');
-            
-            $('figcaption h3', $this).removeClass('fadeInDown'); 
-            $('figcaption h3', $this).addClass('fadeOutUp'); 
+
+            $('figcaption h3', $this).removeClass('fadeInDown');
+            $('figcaption h3', $this).addClass('fadeOutUp');
             $('.plus-icon', $this).removeClass('animated');
         }else{
             $('.plus-icon', $this).stop(true, false).fadeOut('fast');
         }
     });
-    
-  
+
+
   $('.testimonials').responsiveSlides();
-  
-  
+
+
   $.fn.after_ajax =  function() {
     $('.project-images ul').responsiveSlides({
     nav: true,
     prevText: "",
     nextText: "",});
   };
-  
-   
-  $(document).on("click", "#project-info .back", function(){ 
+
+
+  $(document).on("click", "#project-info .back", function(){
     $(this).parent().parent().hide(500);
     $(this).parent().html('<i class="icon-remove back"></i>');
-  });  
-      
-   
+  });
+
+
   $('.vertical-menu > *').addClass('animated');
-  
-  $('.showMenu').on( 'click', function() {    
+
+  $('.showMenu').on( 'click', function() {
     toogle_menu();
-    
+
     if( $(this).hasClass('fadeInRight') ){
         $('.vertical-menu > *').removeClass('fadeInRight');
     }else{
@@ -176,38 +176,38 @@ jQuery( document ).ready( function( $ ) {
         animate_menu();
        }, 70);
     }
-    
+
     if( $(this).hasClass('search') ){
       $('.vertical-menu .form-item-search-block-form input').focus();
 
-    }    
-  }); 
-  
-  $('.vertical-menu').hover(    
+    }
+  });
+
+  $('.vertical-menu').hover(
     function() {
       open_menu();
     },
     function() {
       close_menu();
-    });  
-  
-  function locationHashChanged() { 
+    });
+
+  function locationHashChanged() {
     var pagesClasses = new Array();
     $.each( $pages, function(ind, itm){
       var classList = itm.className.split(/\s+/);
       var sectionclass = classList[1].replace('-page','');
       pagesClasses.push( sectionclass );
     });
-    
+
     var hash = 'home';
     if(window.location.hash) {
       hash = window.location.hash.substring(1);
-    }  
-    
-    var hashIndex = jQuery.inArray( hash, pagesClasses );     
+    }
+
+    var hashIndex = jQuery.inArray( hash, pagesClasses );
     if( hashIndex !== -1 ) {
       nextPage( animcursor, hashIndex );
-      
+
       close_menu();
       if( hash == 'home'){
         hide_home();
@@ -215,7 +215,7 @@ jQuery( document ).ready( function( $ ) {
           animate_home();
         }, 50);
       }
-      
+
       // blog entries animation
       //if( hash == 'blog') {
         $(".blog-page.page-section-current li article").delay(220).queue(function(n) {
@@ -229,7 +229,7 @@ jQuery( document ).ready( function( $ ) {
     };
   }
   window.onhashchange = locationHashChanged;
-  
+
 
 
   function init() {
@@ -252,16 +252,16 @@ jQuery( document ).ready( function( $ ) {
       nextPage( animcursor );
       ++animcursor;
     } );
-    
+
     $('.goto').on( 'click', function() {
       if( isAnimating ) {
         return false;
-      }      
-      $pageindex = $(this).data('pageindex');      
-      if( current != $pageindex ){        
+      }
+      $pageindex = $(this).data('pageindex');
+      if( current != $pageindex ){
         nextPage( animcursor, $(this).data('pageindex') );
       }
-      
+
       // add active class to active menu item
       $('.vertical-menu .menu-list li a').each(function(i,j){
         if( $pageindex == $(this).data('pageindex') ){
@@ -270,9 +270,9 @@ jQuery( document ).ready( function( $ ) {
           $(this).removeClass("active");
         }
       });
-      
+
       // space animation
-      if( $pageindex == 0 ) {        
+      if( $pageindex == 0 ) {
         $('.space').queue(function(n) {
           $(this).addClass('animated bounceInRight');
           n();
@@ -281,9 +281,41 @@ jQuery( document ).ready( function( $ ) {
           }, 200);
         });
       }
-      
-    } );    
 
+    } );
+
+      $(".register-frm").submit(function (event){
+          event.preventDefault();
+          let formData=new FormData(document.getElementById('register-frm'));
+          jQuery.ajax({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') //ADD In index.blade.php
+              },
+              type: "POST",
+              url: 'register',
+              data: formData,
+              contentType : false,
+              processData : false,
+              beforeSend : function ()
+              {
+                  $("#result").html('<center><img src="../images/ajax_loader.gif"></center>');
+              },
+              success:function (data) {
+                 /* var result = $.parseJSON(data);
+                  $(".register-frm")[0].reset();
+                  if(result[1]=="error")
+                      $("#result").addClass('frm_error_style');
+                  else
+                      $("#result").addClass('frm_success_style');*/
+                  $("#result").html(data);
+
+              },
+              fail:function () {
+                  $("#result").addClass('frm_error_style');
+              }
+          })
+
+      });
   }
 
   function nextPage( animation, cur) {
@@ -293,17 +325,17 @@ jQuery( document ).ready( function( $ ) {
     }
 
     isAnimating = true;
-    
+
     var $currPage = $pages.eq( current );
-    
+
     if(typeof cur == 'undefined'){
       current = 0;
     }else{
       current = cur;
     }
-    
+
     var $nextPage = $pages.eq( current ).addClass( 'page-section-current' );
-    
+
     var outClass = '', inClass = '';
 
     switch( animation ) {
@@ -618,8 +650,32 @@ jQuery( document ).ready( function( $ ) {
   init();
 
   return { init : init };
-
-//})();
-
-
 });
+function CallAjax(url,method,divID,data){
+    jQuery.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') //ADD In index.blade.php
+        },
+        url: url,
+        type: method,
+        data:data,
+        beforeSend: function () {
+            $("div#"+divID).html('<center><img src="../images/loading29.gif"></center>');
+        },
+        success: function (data) {
+            $("div#"+divID).html(data);
+        },
+        fail: function () {
+            alert("خطاااااااا");
+        }
+    });
+}
+function ShowCities($provinceID,$divID)
+{
+    let url='GetprovinceCities/'+$provinceID;
+    let method = 'GET';
+    CallAjax(url,method,$divID,'')
+}
+
+
+
