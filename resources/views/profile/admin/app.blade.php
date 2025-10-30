@@ -30,12 +30,13 @@
     <link rel="stylesheet" href="{{ url('/css/AdminPanelStyle/scss/style.css') }}">
     <link rel="stylesheet" href="{{ url('/css/AdminPanelStyle/css/lib/datatable/dataTables.bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url('/css/AdminPanelStyle/css/PersianDateTimePicker.css') }}">
-    <link rel="stylesheet" href="{{url('/css/AdminPanelStyle/css/lib/chosen/chosen.min.css') }}">
+    <link rel="stylesheet" href="{{ url('/css/AdminPanelStyle/css/lib/chosen/chosen.min.css') }}">
     <link rel="stylesheet" href="{{ url('/css/AdminPanelStyle/css/PersianDateTimePicker.css') }}">
+    <link rel="stylesheet" href="{{ url('/css/AdminPanelStyle/css/dropify.min.css')}}">
+
 
     {{-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>--}}
     <script src="{{ url('/js/AdminJs/jquery.min.js?ver=3.6.0') }}"></script>
-
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
 
@@ -72,7 +73,7 @@
 
                     <div class="user-menu dropdown-menu">
                         <a class="nav-link" href="{{route('profile.edit')}}"><i class="fa fa- user"></i>
-                            My Profile</a>
+                            پروفایل من</a>
                         <a class="nav-link" href="#" onclick="event.preventDefault();
                                                document.getElementById('logoutform').submit();"><i class="fa fa-power -off"></i>
                             <form method="POST" id="logoutform" action="{{ route('logout') }}">
@@ -111,7 +112,7 @@
     <!-- Header-->
 
     <div class="breadcrumbs">
-        <div class="col-sm-2">
+        <div class="col-sm-4">
             <div class="page-header float-right">
                 <div class="page-title">
                     <h1>
@@ -207,6 +208,8 @@
 <script src="{{url('/js/AdminJs/persian-date.min.js')}}"></script>
 <script src="{{url('/js/AdminJs/persian-datepicker.min.js')}}"></script>
 <script src="{{url('/js/jquery/jquery.mask.min.js') }}"></script>
+<script src="{{url('/js/AdminJs/dropify.min.js')}}"></script>
+<script src="{{url('/js/AdminJs/jquery.form-upload.init.js')}}" ></script>
 </body>
 </html>
 

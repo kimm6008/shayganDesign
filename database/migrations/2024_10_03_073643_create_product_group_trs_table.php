@@ -11,7 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->foreignId('languages_id');
-            $table->foreignId(\App\Models\product_group::class)->constrained();;
+            $table->foreignId(\App\Models\product_group::class)->constrained();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

@@ -13,7 +13,9 @@ class product extends Model
         'product_group_id',
         'product_model_id',
         'enable',
-        'uuid'
+        'uuid',
+        'is_selective',
+        'color_code'
     ];
 
     protected static function boot()
@@ -54,6 +56,7 @@ class product extends Model
     {
         return $this->hasMany(product_price::class);
     }
+
     public function GetFeaturesWithValus()
     {
         $faLangID = SettingHelper::getFaLangID();
@@ -63,10 +66,52 @@ class product extends Model
                 $feature_id = $product_feature_values->features->first()->id;
                 return [
                     $feature_id => [
-                        'fa_value' => $product_feature_values->translation->where('languages_id', $faLangID)->first()->value,
-                        'en_value' => $product_feature_values->translation->where('languages_id', $enLangID)->first()->value
+                        'isColor'=>$product_feature_values->features->first()->isColor,
+                        'colors'=>explode(',', $product_feature_values->colors) ?? null,
+                        'fa_value' =>optional($product_feature_values->translation->where('languages_id', $faLangID)->first())->value,
+                        'en_value' =>optional($product_feature_values->translation->where('languages_id', $enLangID)->first())->value,
+                        'feature_fa_name'=>$product_feature_values->features->first()->translations->where('languages_id', $faLangID)->first()->name,
+                        'feature_en_name'=>$product_feature_values->features->first()->translations->where('languages_id', $enLangID)->first()->name
+
                     ]
                 ];
             });
+    }
+
+    public static function GetProductFullInfo()
+    {
+        $faLangID = SettingHelper::getFaLangID();
+        $enLangID = SettingHelper::getEnLangID();
+        return product::with(['translation','Gallery','product_model.product_model_translation',
+            'product_group.translation'])->get()
+            ->map(function (product $product) use ($faLangID, $enLangID){
+                return [
+                    'id'=>$product->id,
+                    'uuid'=>$product->uuid,
+                    'enable'=>$product->enable,
+                    'color'=>$product->color_code,
+                    'fa_name'=>$product->translation->where('languages_id',$faLangID)->first()->name,
+                    'en_name'=>$product->translation->where('languages_id',$enLangID)->first()->name,
+                    'fa_desc'=>$product->translation->where('languages_id',$faLangID)->first()->description,
+                    'en_desc'=>$product->translation->where('languages_id',$enLangID)->first()->description,
+                    'product_group_id'=>$product->product_group_id,
+                    'fa_group_name'=>$product->product_group->translation->where('languages_id',$faLangID)->first()->name,
+                    'en_group_name'=>$product->product_group->translation->where('languages_id',$enLangID)->first()->name,
+                    'product_model_id'=>$product->product_model_id,
+                    'fa_model_name'=>$product->product_model->product_model_translation->where('languages_id',$faLangID)->first()->name,
+                    'en_model_name'=>$product->product_model->product_model_translation->where('languages_id',$enLangID)->first()->name,
+                    'main_image'=>$product->Gallery->where('isMainImage',1)->first()?->imgPath ?? '',
+                    'banner_image'=>$product->Gallery->where('isBannerImage',1)->first()?->imgPath ?? '',
+                    'is_selective'=>$product->is_selective
+                ];
+            });
+    }
+    public static function GetSelectiveProducts($langid)
+    {
+        return product::with(['translation'=>function ($query) use ($langid)  {
+            return $query->where('languages_id', $langid);
+        },'gallery'=>function ($query)  {
+            return $query->where('isMainImage',1)->get('imgPath');
+        }])->where('is_selective',true)->get();
     }
 }

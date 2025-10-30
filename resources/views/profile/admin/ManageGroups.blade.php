@@ -14,6 +14,8 @@
                                      label="عنوان گروه({{$value->lang_name}})"
                                      placeholder="" value=""
                                      :required="true" :readonly="false" :disabled="false" faicon="fa-star"/>
+            <x-admin-form.input-textarea id="{{$value->lang_code}}_desc" name="{{$value->lang_code}}_desc" label="توضیحات ({{$value->lang_name}})"
+                                         :required="true" :readonly="false" :disabled="false" faicon="fa-star" direction="{{$value->lang_dir}}" />
         @endforeach
         <x-admin-form.submit-button/>
     </form>
@@ -32,12 +34,12 @@
             <x-slot:bodyData>
                 @foreach($product_groups as $product_group)
                     <tr>
-                        <td><img src="{{asset($product_group->imgPath)}}" width="100" height="100"></td>
-                        <td>{{$product_group->product_group_with_lang_filter(\App\Http\SettingHelper::getFaLangID())->first()->name}}</td>
-                        <td>{{$product_group->DeliveryDuration}}</td>
-                        <td>{{$product_group->enable==1 ? "فعال" : "غیر فعال"}}</td>
-                        <td><x-nav-link :href="route('ProductGroupFeature.index','id='.$product_group->uuid)" >تعیین مشخصات گروه محصول</x-nav-link></td>
-                        <td>ویرایش</td>
+                        <td><img src="{{asset($product_group['imgPath'])}}" width="100" height="100"></td>
+                        <td>{{$product_group['fa_name']}}</td>
+                        <td>{{$product_group['DeliveryDuration']}}</td>
+                        <td>{{$product_group['enable']==1 ? "فعال" : "غیر فعال"}}</td>
+                        <td><x-nav-link :href="route('ProductGroupFeature.index','id='.$product_group['uuid'])" >تعیین مشخصات گروه محصول</x-nav-link></td>
+                        <td><a href="{{route('ProductGroups.edit',$product_group['uuid'])}}" >ویرایش</a></td>
                         <td>حذف</td>
                     </tr>
                 @endforeach
@@ -55,10 +57,10 @@
             <x-slot:bodyData>
                 @foreach($product_groups as $product_group)
                     <tr>
-                        <td><img src="{{asset($product_group->imgPath)}}" width="100" height="100"></td>
-                        <td>{{$product_group->product_group_with_lang_filter(\App\Http\SettingHelper::getEnLangID())->first()->name}}</td>
-                        <td>{{$product_group->DeliveryDuration}}</td>
-                        <td>{{$product_group->enable==1 ? "فعال" : "غیر فعال"}}</td>
+                        <td><img src="{{asset($product_group['imgPath'])}}" width="100" height="100"></td>
+                        <td>{{$product_group['en_name']}}</td>
+                        <td>{{$product_group['DeliveryDuration']}}</td>
+                        <td>{{$product_group['enable']==1 ? "فعال" : "غیر فعال"}}</td>
                         <td>Edit</td>
                         <td>Delete</td>
                     </tr>

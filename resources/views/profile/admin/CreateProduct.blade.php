@@ -9,8 +9,9 @@
         <x-admin-form.input-combo-box label="گروه محصول" id="product_group_id" name="product_group_id" required="true"
                                       data_caption="name" faicon="fa-info" data_id="product_group_id" :info="$product_groups"  />
         <x-admin-form.input-combo-box label="خانواده محصول" id="product_model_id" name="product_model_id"
-                                      data_caption="name" faicon="fa-info" data_id="product_group_id" :info="$group_models"  />
+                                      data_caption="name" faicon="fa-info" data_id="product_model_id" :info="$group_models"  />
         <x-admin-form.image-uploader name="img" id="img" label="عکس اصلی" :required="true" />
+        <x-admin-form.input-color name="color" label="رنگ محصول" id="color" faicon="fa-info"  />
         @foreach($languages as $value)
             <x-admin-form.input-text id="{{$value->lang_code}}_name" name="{{$value->lang_code}}_name" label="عنوان محصول({{$value->lang_name}})"
                                      placeholder="" value="" :required="true" :readonly="false" :disabled="false" faicon="fa-star"

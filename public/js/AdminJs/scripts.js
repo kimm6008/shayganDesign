@@ -37,7 +37,7 @@ jQuery( document ).ready( function( $ ) {
        const productId = $(this).data("id"); // Get product ID from link
 
        // Show loading message inside modal
-       $("#modal-content").html("<p>در حال بارگزاری...</p>");
+       $(".div_addprice").html("<p>در حال بارگزاری...</p>");
        $("#add_product_price").modal('show'); // Open the modal
 
        $.ajax({
@@ -45,10 +45,10 @@ jQuery( document ).ready( function( $ ) {
            type: "GET",
            data: { product_id: productId },
            success: function (response) {
-               $("#modal-content").html(response);
+               $(".div_addprice").html(response);
            },
            error: function () {
-               $("#modal-content").html("<p>Failed to load prices. Please try again later.</p>");
+               $(".div_addprice").html("<p>Failed to load prices. Please try again later.</p>");
            }
        });
    });
@@ -59,7 +59,7 @@ jQuery( document ).ready( function( $ ) {
         const productId = $(this).data("id"); // Get product ID from link
 
         // Show loading message inside modal
-        $("#modal-content").html("<p>Loading prices...</p>");
+        $(".div_showprice").html("<p>Loading prices...</p>");
         $("#show_product_price").modal('show'); // Open the modal
 
         $.ajax({
@@ -67,10 +67,10 @@ jQuery( document ).ready( function( $ ) {
             type: "GET",
             data: { product_id: productId },
             success: function (response) {
-                $("#modal-content").html(response);
+                $(".div_showprice").html(response);
             },
             error: function () {
-                $("#modal-content").html("<p>Failed to load prices. Please try again later.</p>");
+                $(".div_showprice").html("<p>Failed to load prices. Please try again later.</p>");
             }
         });
     });
@@ -92,7 +92,50 @@ jQuery( document ).ready( function( $ ) {
         $('#price').mask('#,##0', {reverse: true});
 
     });
+    $(".showfeatureeditform").click(function (event)
+    {
+        event.preventDefault(); // Prevent default link behavior
 
+        const featureId = $(this).data("id"); // Get product ID from link
+
+        // Show loading message inside modal
+        $(".div_showeditfeatureform").html("<p>Loading prices...</p>");
+        $("#show_feature_editform").modal('show'); // Open the modal
+
+        $.ajax({
+            url: "/Feature/" + featureId + "/edit",
+            type: "GET",
+            data: { feature_id: featureId },
+            success: function (response) {
+                $(".div_showeditfeatureform").html(response);
+            },
+            error: function () {
+                $(".div_showeditfeatureform").html("<p>Failed to load prices. Please try again later.</p>");
+            }
+        });
+    });
+    ////////////////////////
+    var toolbarOptions = [
+        ['Bold', 'Italic', 'Underline'], // ابزارهای قالب‌بندی متن
+        ['NumberedList', 'BulletedList'], // لیست‌ها
+        ['Undo', 'Redo'] // برگشت و بازگردانی
+    ];
+    $('.fa_ckeditor').each(function () {
+        // تبدیل به CKEditor
+        CKEDITOR.replace($(this).attr('id'), {
+            language: 'fa',
+
+        });
+    });
+
+    $('.en_ckeditor').each(function () {
+        // تبدیل به CKEditor
+        CKEDITOR.replace($(this).attr('id'), {
+            language: 'en',
+
+        });
+    });
+    ////////////////////////////
 })
 function loadDataToComboBox(
     {
@@ -139,5 +182,35 @@ function loadDataToComboBox(
             $(modelCombo).trigger("chosen:updated");
         }
     );
+}
+
+function addColor(id) {
+    const container = document.getElementById("colorContainer");
+
+    // دکمه + قدیمی رو بردار
+    const oldAddButton = container.querySelector(".add-btn");
+    if (oldAddButton) oldAddButton.remove();
+
+    // ردیف جدید بساز
+    const row = document.createElement("div");
+    row.className = "color-row";
+
+    const input = document.createElement("input");
+    input.type = "color";
+    input.name = "colors"+id+"[]";
+    input.className = "color-input";
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "add-btn";
+    button.textContent = "+";
+    button.onclick = function () {
+        addColor(id);  // اینجا id به تابع داده می‌شه
+    };
+
+    row.appendChild(input);
+    row.appendChild(button);
+
+    container.appendChild(row);
 }
 

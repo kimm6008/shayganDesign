@@ -4,12 +4,12 @@
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
-
+        <input type="hidden" name="usertype" value="{{md5('Admin')}}">
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <x-input-label for="mobile" :value="__('Mobile')" />
+            <x-text-input id="mobile" class="block mt-1 w-full" type="number" min="0" name="mobile" :value="old('Mobile')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('mobile')" class="mt-2" />
         </div>
 
         <!-- Password -->

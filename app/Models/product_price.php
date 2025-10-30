@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class product_price extends Model
 {
@@ -24,7 +25,7 @@ class product_price extends Model
     {
         return $this->belongsTo(product::class);
     }
-    public function currency(): BelongsTo
+    public function currency() : belongsTo
     {
         return $this->belongsTo(currency::class);
     }

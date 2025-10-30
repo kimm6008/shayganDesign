@@ -15,10 +15,15 @@ class party extends Model
         'postalcode',
         'mobile',
         'address',
+        'uuid'
     ];
 
     public function city(): BelongsTo
     {
         return $this->belongsTo(city::class);
+    }
+    public function user()
+    {
+        return $this->hasOne(User::class);
     }
 }

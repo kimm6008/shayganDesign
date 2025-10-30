@@ -14,10 +14,17 @@
 <div class="row clear-fix">
     <div class="large-12 columns page-sub-title text-center">
         <p>پر کردن اطلاعات ستاره دار الزامی است</p>
+        <p>
+        @foreach($errors as $message)
+            <li>{{$message}}</li>
+        @endforeach
+        </p>
+
     </div>
     <div class="large-9 columns">
         <div class="wpcf7" id="wpcf7-f6-p14-o1">
-            <form id="register-frm" class="wpcf7-form register-frm" >
+            <form id="register-frm" method="POST" action="{{ route('register') }}" class="wpcf7-form register-frm" >
+                @csrf
                 <div id="result"></div>
                 <p>{{__("FirstName")}}*
                     <br>

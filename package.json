@@ -19,6 +19,7 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "dropzone": "^6.0.0-beta.2",
         "inputmask": "^5.0.9",
         "persian-datepicker": "^1.2.0"
     }

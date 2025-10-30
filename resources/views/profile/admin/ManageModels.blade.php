@@ -25,7 +25,6 @@
                 <th>گروه مدل</th>
                 <th>وضعیت</th>
                 <th>ویرایش</th>
-                <th>حذف</th>
             </x-slot:headerData>
             <x-slot:bodyData>
                 @foreach($product_models as $product_model)
@@ -35,13 +34,6 @@
                         <td>{{$product_model['fa_group_name']}}</td>
                         <td>{{$product_model['enable']==1 ? "فعال" : "غیر فعال"}}</td>
                         <td><a href="{{ route('ProductModels.edit', $product_model['id']) }}">ویرایش</a></td>
-                        <td>
-                        <form method="POST" action="{{ route('ProductModels.destroy', $product_model['id']) }}" style="display: inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" onclick="return confirm('آیا مطمئن هستید؟')">حذف</button>
-                        </form>
-                        </td>
                     </tr>
                 @endforeach
             </x-slot:bodyData>
@@ -53,7 +45,7 @@
                 <th>Group</th>
                 <th>Status</th>
                 <th>Edit</th>
-                <th>Delete</th>
+
             </x-slot:headerData>
             <x-slot:bodyData>
                 @foreach($product_models as $product_model)
@@ -63,7 +55,7 @@
                         <td>{{$product_model['en_group_name']}}</td>
                         <td>{{$product_model['enable']==1 ? "Enable" : "Disable"}}</td>
                         <td>Edit</td>
-                        <td>Delete</td>
+                       
                     </tr>
                 @endforeach
             </x-slot:bodyData>

@@ -9,6 +9,7 @@ class product_group_tr extends Model
 {
     protected $fillable = [
         'name',
+        'description',
         'languages_id',
         'product_group_id',
     ];

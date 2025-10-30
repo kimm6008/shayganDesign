@@ -1,4 +1,4 @@
-@props(["id","title"])
+@props(["id","title","divClass"])
 <div class="modal fade" id="{{$id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body" id="modal-content">
                 <!-- Dynamic content will be loaded here -->
-                <p>Loading...</p>
+                <div class="{{$divClass}}">Loading...</div>
             </div>
         </div>
     </div>

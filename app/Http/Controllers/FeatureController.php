@@ -6,6 +6,8 @@ use App\Http\SettingHelper;
 use App\Models\feature;
 use App\Models\features_tr;
 use App\Models\languages;
+use App\Models\product;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -26,7 +28,9 @@ class FeatureController extends Controller
         DB::beginTransaction();
         try {
             $languages = languages::all();
-            $feature = feature::create();
+            $feature = feature::create([
+                'isColor'=>$request->isColor == 'on' ? 1 : 0,
+            ]);
             foreach ($languages as $language) {
                 $data[] = [
                     'languages_id' => $language->id,
@@ -35,7 +39,7 @@ class FeatureController extends Controller
                 ];
             }
             features_tr::insert($data);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
             return SettingHelper::RedirectWithErrorMessage('Feature', $exception->getMessage());
         }
@@ -53,13 +57,42 @@ class FeatureController extends Controller
 
     public function edit($id)
     {
+        $feature = feature::find($id);
+        $languages = languages::all();
+        return view('profile.admin.ViewFeatureEditForm'
+            , compact('languages', 'feature'));
     }
 
-    public function update(Request $request, $id)
+    public function update(feature $feature, Request $request)
     {
+        if($feature->featureValues()->exists())
+            return SettingHelper::RedirectWithErrorMessage('Feature', "امکان وبرایش ویژگی استفاده شده در محصول وجود ندارد");
+
+        DB::beginTransaction();
+        try {
+            feature::where('id', $feature->id)->update([
+                'isColor'=>$request->isColor == 'on' ? 1 : 0,
+            ]);
+            $feature->translations()->delete();
+            $languages = languages::all();
+            foreach ($languages as $language) {
+                $date[]=[
+                    'languages_id' => $language->id,
+                    'feature_id' => $feature->id,
+                    'name' => $request[$language->lang_code . '_name']
+                ];
+            }
+            features_tr::insert($date);
+        }catch (Exception $exception) {
+            DB::rollBack();
+            return SettingHelper::RedirectWithErrorMessage('Feature', $exception->getMessage());
+        }
+        DB::commit();
+        return SettingHelper::RedirectWithSuccessMessage('Feature', "ویژگی با موفقیت ویرایش شد");
     }
 
     public function destroy($id)
     {
+
     }
 }

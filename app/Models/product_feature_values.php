@@ -10,7 +10,8 @@ class product_feature_values extends Model
 {
     protected $fillable = [
         'feature_id',
-        'product_id'
+        'product_id',
+        'colors'
     ];
 
     public function features(): BelongsToMany

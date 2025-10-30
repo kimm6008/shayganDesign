@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class feature extends Model
 {
     protected $fillable = [
+        'isColor'
     ];
     public function feature_with_lang_filter($langID) : HasOne
     {
@@ -29,4 +30,5 @@ class feature extends Model
     {
         return $this->hasMany(product_feature_values::class);
     }
+
 }
