@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductListResource;
 use App\Http\Resources\ProductResource;
 use App\Http\SettingHelper;
 use App\Models\languages;
@@ -182,20 +183,76 @@ class ProductController extends Controller
         $price=product::find($id)->product_price()->get();
         return view('profile.admin.AddPrice');
     }
-    public function GetProductPrice($id)
+    public static function GetProductPrice($id)
     {
         return product_price::with(['currency'])->where('product_id',$id)
             ->whereNull('toDate')->first();
     }
+    public static function GetProductDiscount($id)
+    {
+        return array([
+            'discount'=>0
+        ]);
+    }
     public function apiViewProduct($uuid)
     {
-        $product=product::GetProductFullInfo()->where('uuid',$uuid)->first();
-        $price=$this->GetProductPrice($product['id']);
-        $product['price']=$price?->price;
-        $product['currency']=$price?->currency->name;
-        $product['discount']=0;
-        $product['Gallery']=product_gallery::where(['product_id' => $product['id']])->get();
-        $product['features']=product::firstWhere('id',$product['id'])->GetFeaturesWithValus();
+        $product = product::GetProductFullInfo()->where('uuid', $uuid)->first();
+        $price = $this->GetProductPrice($product['id']);
+        $discount = $this->GetProductDiscount($product['id']);
+        $product['price'] = $price?->price;
+        $product['currency'] = $price?->currency->name;
+        $product['discount'] = $discount['discount'] ?? 0;
+        $product['Gallery'] = product_gallery::where(['product_id' => $product['id']])->get();
+        $product['features'] = product::firstWhere('id', $product['id'])->GetFeaturesWithValus();
         return response()->json($product);
+    }
+
+    public function apiAllProducts()
+    {
+        $page = request()->query('page', 1);
+        $recordCount = request()->query('count', 5);
+        $search=request()->query('query', "");
+        $maxRecordCount = 20;
+
+        if ($recordCount > $maxRecordCount) {
+            $recordCount = $maxRecordCount;
+        }
+
+        $totalRecords = product::count();
+        $totalPages = ceil($totalRecords / $recordCount);
+        $query = Product::GetProductFullInfo();
+
+        if (!empty($search)) {
+            $search = trim(request()->query('query', ""), "\"'");
+            $query = $query->filter(function ($product) use ($search) {
+                return str_contains($product['fa_name'], $search);
+            });
+
+        }
+
+        $allProducts = $query
+            ->skip(($page - 1) * $recordCount)
+            ->take($recordCount)->map(function ($product) {
+
+                $price = $this->GetProductPrice($product['id']);
+                $discount = $this->GetProductDiscount($product['id']);
+                $product['price'] = $price?->price ?? 0;
+                $product['currency'] = $price?->currency->name ?? null;
+                $product['discount'] = $discount['discount'] ?? 0;
+                // ویژگی‌ها
+                $product['features'] = Product::firstWhere('id', $product['id'])->GetFeaturesWithValus();
+
+                return $product;
+            })->values();
+
+        return response()->json([
+            'current_page'   => $page,
+            'record_count'   => $recordCount,
+            'total_records'  => $totalRecords,
+            'total_pages'    => $totalPages,
+            'products'       => $allProducts,
+            'search'         => $search,
+        ], 200, [], JSON_UNESCAPED_UNICODE);
+
     }
 }

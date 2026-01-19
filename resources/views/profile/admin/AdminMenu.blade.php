@@ -83,7 +83,8 @@
             <i class="menu-icon fa fa-info"></i>تنظیمات</a>
         <ul class="sub-menu children dropdown-menu">
             <li><i class="menu-icon fa fa-image"></i><a href="{{route('SlideShow.index')}}">مدیریت اسلاید شو</a></li>
-            <li><i class="menu-icon fa fa-phone"></i><a href="{{route('AdminContactUs')}}">تماس با ما</a></li>
+            <li><i class="menu-icon fa fa-phone"></i><a href="{{route('ContactUs.index')}}">تماس با ما</a></li>
+            <li><i class="menu-icon fa fa-phone"></i><a href="{{route('AboutUs.index')}}">درباره ما</a></li>
             <li><i class="menu-icon fa fa-th"></i><a href="{{route('SiteSetting')}}">تنظیمات</a></li>
         </ul>
     </li>

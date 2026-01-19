@@ -29,7 +29,7 @@ jQuery( document ).ready( function( $ ) {
            textField : 'name'
        });
     });
-
+    ///////////////Product Price/////////
    $(".addprice").click(function (event)
    {
        event.preventDefault(); // Prevent default link behavior
@@ -114,7 +114,74 @@ jQuery( document ).ready( function( $ ) {
             }
         });
     });
-    ////////////////////////
+    ///////////Ebd Product Price/////////
+
+    ///////////////Product Discount/////////
+    $(".adddiscount").click(function (event)
+    {
+        event.preventDefault(); // Prevent default link behavior
+
+        const productId = $(this).data("id"); // Get product ID from link
+
+        // Show loading message inside modal
+        $(".div_adddiscount").html("<p>در حال بارگزاری...</p>");
+        $("#add_product_discount").modal('show'); // Open the modal
+
+        $.ajax({
+            url: "/ProductDiscount/create",
+            type: "GET",
+            data: { product_id: productId },
+            success: function (response) {
+                $(".div_adddiscount").html(response);
+            },
+            error: function () {
+                $(".div_adddiscount").html("<p>Failed to load prices. Please try again later.</p>");
+            }
+        });
+    });
+    $(".showdiscount").click(function (event)
+    {
+        event.preventDefault(); // Prevent default link behavior
+
+        const productId = $(this).data("id"); // Get product ID from link
+
+        // Show loading message inside modal
+        $(".div_showdiscount").html("<p>Loading prices...</p>");
+        $("#show_product_discount").modal('show'); // Open the modal
+
+        $.ajax({
+            url: "/ProductDiscount/show",
+            type: "GET",
+            data: { product_id: productId },
+            success: function (response) {
+                $(".div_showdiscount").html(response);
+            },
+            error: function () {
+                $(".div_showdiscount").html("<p>Failed to load prices. Please try again later.</p>");
+            }
+        });
+    });
+    $('#add_product_discount').on('shown.bs.modal', function () {
+        $("#persian_from_date").persianDatepicker(
+            {
+                format: 'YYYY/MM/DD',
+                autoClose: true,
+                initialValue: true
+            }
+        );
+        $("#persian_to_date").persianDatepicker(
+            {
+                format: 'YYYY/MM/DD',
+                autoClose: true,
+                initialValue: false,
+            }
+        );
+        $('#price').mask('#,##0', {reverse: true});
+
+    });
+
+    ///////////Ebd Product Discount/////////
+
     var toolbarOptions = [
         ['Bold', 'Italic', 'Underline'], // ابزارهای قالب‌بندی متن
         ['NumberedList', 'BulletedList'], // لیست‌ها

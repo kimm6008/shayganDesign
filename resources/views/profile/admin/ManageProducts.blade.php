@@ -32,6 +32,9 @@
                         <td><a href="ProductFeatureValue/{{$product['uuid']}}">ویژگی های محصول</a></td>
                         <td><a href="#" data-id="{{$product["id"]}}"  class="addprice">ثبت قیمت</a>|
                             <a href="#" data-id="{{$product["id"]}}"  class="showprice">مشاهده قیمت</a>
+                            <hr />
+                            <a href="#" data-id="{{$product["id"]}}"  class="adddiscount">ثبت تخفیف</a> |
+                            <a href="#" data-id="{{$product["id"]}}"  class="showdiscount">مشاهده تخفیفات</a>
                         </td>
                         <td><a href="ProductGallery/{{$product['uuid']}}">گالری عکس</a></td>
                         <td><a href="{{ route('Products.edit', $product['uuid']) }}">ویرایش</a></td>
@@ -74,7 +77,8 @@
             </x-slot:bodyData>
         </x-admin-form.en-tab-view>
     </div>
-   <x-dialog id="add_product_price" title="ثبت قیمت محصول" div-class="div_addprice" />
+    <x-dialog id="add_product_price" title="ثبت قیمت محصول" div-class="div_addprice" />
     <x-dialog id="show_product_price" title="مشاهده قیمت محصول" div-class="div_showprice" />
-
+    <x-dialog id="add_product_discount" title="ثبت تخفیف محصول" div-class="div_adddiscount" />
+    <x-dialog id="show_product_discount" title="مشاهده تخفیف محصول" div-class="div_showdiscount" />
 @endsection

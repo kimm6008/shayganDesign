@@ -190,7 +190,9 @@
 <script src="{{ url('/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ url('/js/AdminJs/popper.min.js') }}"></script>
 <script src="{{ url('/js/AdminJs/plugins.js') }}"></script>
+{{--
 <script src="{{ url('/js/AdminJs/main.js') }}"></script>
+--}}
 
 <script src="{{ url('/js/AdminJs/lib/data-table/jquery.dataTables.min.js') }}"></script>
 <script src="{{ url('/js/AdminJs/lib/data-table/dataTables.bootstrap.min.js') }}"></script>

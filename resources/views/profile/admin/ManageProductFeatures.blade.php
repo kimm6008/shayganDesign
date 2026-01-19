@@ -9,40 +9,40 @@
         @csrf
         <input type="hidden" name="ProductUuid" value="{{$product->uuid}}">
 
-    @foreach($features as $feature)
+        @foreach($features as $feature)
             @if(!$feature['isColor'])
-        @foreach($languages as $lang)
-
-                <x-admin-form.input-text label="{{$feature['fa_name'].'('.$lang->lang_name.')'}}"
-                                         id="{{$lang->lang_code.'_'.$feature['feature_id']}}"
-                                         name="{{$lang->lang_code.'_'.$feature['feature_id']}}"
-                                         value="{{$feature_value->count()==0 || !$feature_value->has($feature['feature_id']) ? '' : $feature_value[$feature['feature_id']][$lang->lang_code.'_value']}}"
-                                         placeholder=""  :readonly="false" :required="true"
-                                         :disabled="false" faicon="fa-star" direction="{{$lang->lang_dir}}"
-                />
-
-        @endforeach
+                @foreach($languages as $lang)
+                    <x-admin-form.input-text label="{{$feature['feature_fa_name'].' ('.$lang->lang_name.')'}}"
+                                             id="{{$lang->lang_code.'_'.$feature['featureID']}}"
+                                             name="{{$lang->lang_code.'_'.$feature['featureID']}}"
+                                             value="{{ $feature_value->count() > 0 ?
+                                                            $feature_value->where('featureID',$feature['featureID'])->first()[$lang->lang_code.'_value']
+                                                            : null
+                                                     }}"
+                                             placeholder="" :readonly="false" :required="true"
+                                             :disabled="false" faicon="fa-star" direction="{{$lang->lang_dir}}"
+                    />
+                @endforeach
             @else
-                <div id="colorContainer" >
-                    <div class="input-group-addon col-2 col-lg-2">{{$feature['fa_name']}}</div>
-                    @if($feature_value->has($feature['feature_id']) && array_count_values($feature_value[$feature['feature_id']]['colors'])>0)
-                        @foreach($feature_value[$feature['feature_id']]['colors'] as $color )
+                <div id="colorContainer">
+                    <div class="input-group-addon col-2 col-lg-2">{{$feature['feature_fa_name']}}</div>
+                    @if($feature != null && $feature_value->where('featureID',$feature['featureID'])->count()>0)
+                        @foreach($feature_value->where('featureID',$feature['featureID'])->first()['colors'] as $color )
                             <div class="color-row">
-
-                                <input  class="color-input" type="color" value="{{$color}}" name="colors{{$feature['feature_id']}}[]">
+                                <input class="color-input" type="color" value="{{$color}}"
+                                       name="colors{{$feature['featureID']}}[]">
                             </div>
                         @endforeach
                     @else
-                    <div class="color-row">
-
-                        <input  class="color-input" type="color" name="colors{{$feature['feature_id']}}[]">
-                    </div>
+                        <div class="color-row">
+                            <input class="color-input" type="color" name="colors{{$feature['featureID']}}[]">
+                        </div>
 
                     @endif
-                    <button type="button" class="add-btn" onclick="addColor({{$feature['feature_id']}})">+</button>
+                    <button type="button" class="add-btn" onclick="addColor({{$feature['featureID']}})">+</button>
                 </div>
             @endif
-    @endforeach
+        @endforeach
         <x-admin-form.submit-button/>
     </form>
 @endsection
@@ -52,6 +52,7 @@
         align-items: center;
         margin-bottom: 10px;
     }
+
     .color-input {
         width: 60px;
         height: 40px;
@@ -59,6 +60,7 @@
         margin-left: 10px;
         cursor: pointer;
     }
+
     .add-btn {
         padding: 8px 14px;
         font-size: 20px;
@@ -68,6 +70,7 @@
         border: none;
         cursor: pointer;
     }
+
     .add-btn:hover {
         background-color: #218838;
     }

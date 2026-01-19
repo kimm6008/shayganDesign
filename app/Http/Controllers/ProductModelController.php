@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\SettingHelper;
 use App\Models\languages;
+use App\Models\product_gallery;
 use App\Models\product_group_tr;
 use App\Models\product_model;
 use App\Models\product_model_tr;
@@ -125,5 +126,63 @@ class ProductModelController extends Controller
 
     public function destroy($id)
     {
+    }
+
+    public function apiGetProductModelInfo(Request $request)
+    {
+        $uuid = $request->query('uuid');
+
+        if($uuid != null)
+            $product_models=product_model::where('uuid',$uuid)->with(['product_model_translation','products','products.translation'])->get();
+        else
+            $product_models=product_model::with(['product_model_translation','products','products.translation'])->get();
+        $models = [];
+        foreach ($product_models as $model) {
+            $model_info = [];
+            foreach ($model->product_model_translation as $tr) {
+                $lang = $tr->languages->lang_code;
+                $model_info[$lang] = [
+                    'ModelTitle' => $tr->name,
+                ];
+            }
+
+            $latest_products = $model->products->take(10)->map(function ($product) {
+                // ترجمه‌های هر محصول
+                $product_translations = [];
+                foreach ($product->translation as $ptr) {
+                    $lang = $ptr->languages->lang_code;
+                    $product_translations[$lang] = [
+                        'title' => $ptr->name,
+                        'description' => $ptr->description ?? null,
+                    ];
+                }
+                $price=ProductController::GetProductPrice($product->id);
+                $discount=ProductController::GetProductDiscount($product->id);
+                $gallery = product_gallery::where(['product_id' => $product->id , 'isMainImage' => false])->get(['id','imgPath']);
+                return [
+                    'id' => $product->id,
+                    'uuid' => $product->uuid,
+                    'enable' => $product->enable,
+                    'imgPath' => $product->Gallery()->first()->imgPath,
+                    'gallery'=> $gallery,
+                    'Price'=> $price?->price,
+                    'Currency'=> $price?->currency->name,
+                    'Discount' => $discount['discount'] ?? 0,
+                    'translations' => $product_translations,
+                ];
+            });
+
+            $models[] = [
+                'id' => $model->id,
+                'uuid' => $model->uuid,
+                'enable' => $model->enable,
+                'imgPath' => $model->imgPath,
+                'info' => $model_info,
+                'latestProducts' => $latest_products->values(),
+            ];
+        }
+
+
+        return response()->json($models);
     }
 }

@@ -44,7 +44,13 @@ class SettingHelper
 
     private static function isFileTypeValid($file): bool
     {
-        if ( $file->extension() == "jpg" || $file->extension() == "png" || $file->extension() == "jpeg")
+        if ( $file->extension() == "jpg"
+            || $file->extension() == "png"
+            || $file->extension() == "jpeg"
+            || $file->extension() == "pdf"
+            || $file->extension() == "mp4"
+            || $file->extension() == "mkv"
+        )
             return true;
         return false;
     }

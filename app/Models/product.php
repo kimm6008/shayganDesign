@@ -61,21 +61,23 @@ class product extends Model
     {
         $faLangID = SettingHelper::getFaLangID();
         $enLangID = SettingHelper::getEnLangID();
-        return $this->featureValues()->with(['translation'])->get()
-            ->mapWithKeys(function (product_feature_values $product_feature_values) use ($faLangID, $enLangID) {
-                $feature_id = $product_feature_values->features->first()->id;
+        return $this->featureValues()
+            ->with(['translation', 'features.translations'])
+            ->get()
+            ->map(function ($product_feature_values) use ($faLangID, $enLangID) {
+                $feature = $product_feature_values->features->first();
+                $featureTranslations = $feature->translations;
                 return [
-                    $feature_id => [
-                        'isColor'=>$product_feature_values->features->first()->isColor,
-                        'colors'=>explode(',', $product_feature_values->colors) ?? null,
-                        'fa_value' =>optional($product_feature_values->translation->where('languages_id', $faLangID)->first())->value,
-                        'en_value' =>optional($product_feature_values->translation->where('languages_id', $enLangID)->first())->value,
-                        'feature_fa_name'=>$product_feature_values->features->first()->translations->where('languages_id', $faLangID)->first()->name,
-                        'feature_en_name'=>$product_feature_values->features->first()->translations->where('languages_id', $enLangID)->first()->name
-
-                    ]
+                    'featureID' => $feature->id,
+                    'isColor' => $feature->isColor,
+                    'colors' => $product_feature_values->colors ? explode(',', $product_feature_values->colors) : null,
+                    'fa_value' => optional($product_feature_values->translation->where('languages_id', $faLangID)->first())->value,
+                    'en_value' => optional($product_feature_values->translation->where('languages_id', $enLangID)->first())->value,
+                    'feature_fa_name' => optional($featureTranslations->where('languages_id', $faLangID)->first())->name,
+                    'feature_en_name' => optional($featureTranslations->where('languages_id', $enLangID)->first())->name
                 ];
             });
+
     }
 
     public static function GetProductFullInfo()
@@ -95,9 +97,11 @@ class product extends Model
                     'fa_desc'=>$product->translation->where('languages_id',$faLangID)->first()->description,
                     'en_desc'=>$product->translation->where('languages_id',$enLangID)->first()->description,
                     'product_group_id'=>$product->product_group_id,
+                    'product_group_uuid'=>$product->product_group->uuid,
                     'fa_group_name'=>$product->product_group->translation->where('languages_id',$faLangID)->first()->name,
                     'en_group_name'=>$product->product_group->translation->where('languages_id',$enLangID)->first()->name,
                     'product_model_id'=>$product->product_model_id,
+                    'product_model_uuid'=>$product->product_model->uuid,
                     'fa_model_name'=>$product->product_model->product_model_translation->where('languages_id',$faLangID)->first()->name,
                     'en_model_name'=>$product->product_model->product_model_translation->where('languages_id',$enLangID)->first()->name,
                     'main_image'=>$product->Gallery->where('isMainImage',1)->first()?->imgPath ?? '',
