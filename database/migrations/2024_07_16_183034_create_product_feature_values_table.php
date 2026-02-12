@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(feature::class)->constrained();
             $table->foreignIdFor(product::class)->constrained();
+            $table->string('colors',1000)->nullable();
             $table->timestamps();
         });
     }

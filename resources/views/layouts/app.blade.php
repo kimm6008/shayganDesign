@@ -7,8 +7,8 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="stylesheet" href="{{ asset('build/assets/app-DrKqg2nF.css') }}">
-        <script src="{{ asset('build/assets/app-CKaIXnju.js') }}" defer></script>
+        {{--<link rel="stylesheet" href="{{ asset('build/assets/app-DrKqg2nF.css') }}">
+        <script src="{{ asset('build/assets/app-CKaIXnju.js') }}" defer></script>--}}
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">

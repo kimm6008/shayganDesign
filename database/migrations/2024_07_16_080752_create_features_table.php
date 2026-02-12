@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         Schema::create('features', function (Blueprint $table) {
             $table->id();
-            $table->boolean('isColor')->nullable();
+            $table->boolean('isColor')->nullable()->default(false);
             $table->timestamps();
         });
     }

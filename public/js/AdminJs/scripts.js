@@ -19,7 +19,7 @@ jQuery( document ).ready( function( $ ) {
 
     $('#product_group_id').change(function () {
 
-       let routeUrl= '/get_product_group_model?id=' + this.value;
+       let routeUrl= '../get_product_group_model?id=' + this.value;
        loadDataToComboBox({
            comboID : 'product_model_id',
            routeUrl : routeUrl,
@@ -41,7 +41,7 @@ jQuery( document ).ready( function( $ ) {
        $("#add_product_price").modal('show'); // Open the modal
 
        $.ajax({
-           url: "/ProductPrices/create",
+           url: "ProductPrices/create",
            type: "GET",
            data: { product_id: productId },
            success: function (response) {
@@ -63,7 +63,7 @@ jQuery( document ).ready( function( $ ) {
         $("#show_product_price").modal('show'); // Open the modal
 
         $.ajax({
-            url: "/ProductPrices/show",
+            url: "ProductPrices/show",
             type: "GET",
             data: { product_id: productId },
             success: function (response) {
@@ -103,7 +103,7 @@ jQuery( document ).ready( function( $ ) {
         $("#show_feature_editform").modal('show'); // Open the modal
 
         $.ajax({
-            url: "/Feature/" + featureId + "/edit",
+            url: "Feature/" + featureId + "/edit",
             type: "GET",
             data: { feature_id: featureId },
             success: function (response) {
@@ -128,7 +128,7 @@ jQuery( document ).ready( function( $ ) {
         $("#add_product_discount").modal('show'); // Open the modal
 
         $.ajax({
-            url: "/ProductDiscount/create",
+            url: "ProductDiscount/create",
             type: "GET",
             data: { product_id: productId },
             success: function (response) {
@@ -150,7 +150,7 @@ jQuery( document ).ready( function( $ ) {
         $("#show_product_discount").modal('show'); // Open the modal
 
         $.ajax({
-            url: "/ProductDiscount/show",
+            url: "ProductDiscount/show",
             type: "GET",
             data: { product_id: productId },
             success: function (response) {

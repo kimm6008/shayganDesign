@@ -50,11 +50,11 @@ class ProductController extends Controller
     {
         if ($request->hasFile("img")) {
             $file = $request->file("img");
-            $result = SettingHelper::upload_file($file, 'ProductImage', 1024);
+            $result = SettingHelper::upload_file($file, 'ProductImage', 10240);
             if($result=="ExtentionNotValid")
-                return SettingHelper::RedirectWithErrorMessage('Product',  "پسوند فایل مجاز نیست");
+                return SettingHelper::RedirectWithErrorMessage('profile/admin/Product',  "پسوند فایل مجاز نیست");
             if($result=="MaxSizeExceeded")
-                return SettingHelper::RedirectWithErrorMessage('Product',  "حجم فایل بیش از حد مجاز است");
+                return SettingHelper::RedirectWithErrorMessage('profile/admin/Product',  "حجم فایل بیش از حد مجاز است");
             if($result)
             {
                 DB::beginTransaction();
@@ -84,10 +84,10 @@ class ProductController extends Controller
                 }catch (Exception $exception)
                 {
                     DB::rollBack();
-                    return SettingHelper::RedirectWithErrorMessage('Products/create', $exception->getMessage());
+                    return SettingHelper::RedirectWithErrorMessage('profile/admin/Products/create', $exception->getMessage());
                 }
                 DB::commit();
-                return SettingHelper::RedirectWithSuccessMessage('Products', ' محصول با موفقیت اضافه شد');
+                return SettingHelper::RedirectWithSuccessMessage('profile/admin/Products', ' محصول با موفقیت اضافه شد');
 
             }
         }
@@ -127,11 +127,11 @@ class ProductController extends Controller
         try {
             if ($request->hasFile("img")) {
                 $file = $request->file("img");
-                $result = SettingHelper::upload_file($file, 'ProductImage', 1024);
+                $result = SettingHelper::upload_file($file, 'ProductImage', 10240);
                 if ($result == "ExtentionNotValid")
-                    return SettingHelper::RedirectWithErrorMessage('Product', "پسوند فایل مجاز نیست");
+                    return SettingHelper::RedirectWithErrorMessage('profile/admin/Product', "پسوند فایل مجاز نیست");
                 if ($result == "MaxSizeExceeded")
-                    return SettingHelper::RedirectWithErrorMessage('Product', "حجم فایل بیش از حد مجاز است");
+                    return SettingHelper::RedirectWithErrorMessage('profile/admin/Product', "حجم فایل بیش از حد مجاز است");
                 product_gallery::where(['product_id' => $product->id, 'isMainImage' => true])->
                 update([
                     'imgPath' => $result,
@@ -157,10 +157,10 @@ class ProductController extends Controller
             product_tr::insert($data);
         } catch (Exception $exception) {
             DB::rollBack();
-            return SettingHelper::RedirectWithErrorMessage('Products', $exception->getMessage());
+            return SettingHelper::RedirectWithErrorMessage('profile/admin/Products', $exception->getMessage());
         }
         DB::commit();
-        return SettingHelper::RedirectWithSuccessMessage('Products', ' محصول با موفقیت ویرایش شد');
+        return SettingHelper::RedirectWithSuccessMessage('profile/admin/Products', ' محصول با موفقیت ویرایش شد');
     }
 
     public function destroy($id)
@@ -172,10 +172,10 @@ class ProductController extends Controller
         }catch (Exception $exception)
         {
             DB::rollBack();
-            return SettingHelper::RedirectWithErrorMessage('Products', $exception->getMessage());
+            return SettingHelper::RedirectWithErrorMessage('profile/admin/Products', $exception->getMessage());
         }
         DB::commit();
-        return SettingHelper::RedirectWithSuccessMessage('Products', ' محصول با موفقیت حذف شد');
+        return SettingHelper::RedirectWithSuccessMessage('profile/admin/Products', ' محصول با موفقیت حذف شد');
     }
 
     public function get_price($id)

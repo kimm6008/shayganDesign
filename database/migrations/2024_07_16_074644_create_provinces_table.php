@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\country;
 use App\Models\languages;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -11,7 +12,7 @@ return new class extends Migration {
         Schema::create('provinces', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignIdFor(\App\Models\country::class)->constrained();
+            $table->foreignIdFor(country::class)->constrained();
             $table->timestamps();
         });
     }

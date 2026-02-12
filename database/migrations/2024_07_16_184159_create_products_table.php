@@ -15,7 +15,9 @@ return new class extends Migration {
             $table->uuid();
             $table->foreignIdFor(product_group::class)->constrained();
             $table->foreignIdFor(product_model::class)->constrained();
-            $table->boolean('enable');
+            $table->boolean('enable')->default(true);
+            $table->boolean('is_selective')->default(false);
+            $table->string('color_code',100)->nullable();
             $table->timestamps();
         });
     }

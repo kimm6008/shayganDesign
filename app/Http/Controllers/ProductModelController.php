@@ -34,11 +34,11 @@ class ProductModelController extends Controller
     {
         if ($request->hasFile("img")) {
             $file = $request->file("img");
-            $result = SettingHelper::upload_file($file, 'ProductModelImage', 1024);
+            $result = SettingHelper::upload_file($file, 'ProductModelImage', 10240);
             if($result=="ExtentionNotValid")
-                return SettingHelper::RedirectWithErrorMessage('ProductModels',  "پسوند فایل مجاز نیست");
+                return SettingHelper::RedirectWithErrorMessage('profile/admin/ProductModels',  "پسوند فایل مجاز نیست");
             if($result=="MaxSizeExceeded")
-                return SettingHelper::RedirectWithErrorMessage('ProductModels',  "حجم فایل بیش از حد مجاز است");
+                return SettingHelper::RedirectWithErrorMessage('profile/admin/ProductModels',  "حجم فایل بیش از حد مجاز است");
             if ($result) {
                 DB::beginTransaction();
                 try {
@@ -58,10 +58,10 @@ class ProductModelController extends Controller
                     product_model_tr::insert($data);
                 } catch (Exception $exception) {
                     DB::rollBack();
-                    return SettingHelper::RedirectWithErrorMessage('ProductModels', $exception->getMessage());
+                    return SettingHelper::RedirectWithErrorMessage('profile/admin/ProductModels', $exception->getMessage());
                 }
                 DB::commit();
-                return SettingHelper::RedirectWithSuccessMessage('ProductModels', 'مدل محصول با موفقیت اضافه شد');
+                return SettingHelper::RedirectWithSuccessMessage('profile/admin/ProductModels', 'مدل محصول با موفقیت اضافه شد');
             }
         }
     }
@@ -90,11 +90,11 @@ class ProductModelController extends Controller
             $result = null;
             if ($request->hasFile("img")) {
                 $file = $request->file("img");
-                $result = SettingHelper::upload_file($file, 'ProductModelImage', 1024);
+                $result = SettingHelper::upload_file($file, 'ProductModelImage', 10240);
                 if ($result == "ExtentionNotValid")
-                    return SettingHelper::RedirectWithErrorMessage('ProductModels', "پسوند فایل مجاز نیست");
+                    return SettingHelper::RedirectWithErrorMessage('profile/admin/ProductModels', "پسوند فایل مجاز نیست");
                 if ($result == "MaxSizeExceeded")
-                    return SettingHelper::RedirectWithErrorMessage('ProductModels', "حجم فایل بیش از حد مجاز است");
+                    return SettingHelper::RedirectWithErrorMessage('profile/admin/ProductModels', "حجم فایل بیش از حد مجاز است");
             }
             if ($result != null) {
                 $product_model->update([
@@ -118,10 +118,10 @@ class ProductModelController extends Controller
 
         } catch (Exception $exception) {
             DB::rollBack();
-            return SettingHelper::RedirectWithErrorMessage('ProductModels', $exception->getMessage());
+            return SettingHelper::RedirectWithErrorMessage('profile/admin/ProductModels', $exception->getMessage());
         }
         DB::commit();
-        return SettingHelper::RedirectWithSuccessMessage('ProductModels', 'مدل با موفقیت ویرایش شد');
+        return SettingHelper::RedirectWithSuccessMessage('profile/admin/ProductModels', 'مدل با موفقیت ویرایش شد');
     }
 
     public function destroy($id)

@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->id();
             $table->uuid();
             $table->boolean('enable')->default(true);
-            $table->string("imgPath");
+            $table->string('imgPath');
             $table->integer('DeliveryDuration');
             $table->timestamps();
         });
@@ -20,6 +20,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('product_group');
+        Schema::dropIfExists('product_groups');
     }
 };

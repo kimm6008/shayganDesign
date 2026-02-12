@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\currency;
+use App\Models\languages;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,8 +12,8 @@ return new class extends Migration {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('languages_id')->constrained();
-            $table->foreignId('currency_id')->constrained();
+            $table->foreignId(languages::class)->constrained();
+            $table->foreignId(currency::class)->constrained();
             $table->timestamps();
         });
     }

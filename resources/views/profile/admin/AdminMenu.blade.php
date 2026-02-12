@@ -1,6 +1,6 @@
 <ul class="nav navbar-nav">
     <li class="active">
-        <a href="{{url('admin/dashboard')}}"> <i class="menu-icon fa fa-dashboard"></i>صفحه اصلی </a>
+        <a href="{{url('profile/admin/dashboard')}}"> <i class="menu-icon fa fa-dashboard"></i>صفحه اصلی </a>
     </li>
     <h3 class="menu-title">اطلاعات پایه</h3> <!--/.menu-title -->
     <li class="menu-item-has-children dropdown">

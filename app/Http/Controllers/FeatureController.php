@@ -41,10 +41,10 @@ class FeatureController extends Controller
             features_tr::insert($data);
         } catch (Exception $exception) {
             DB::rollBack();
-            return SettingHelper::RedirectWithErrorMessage('Feature', $exception->getMessage());
+            return SettingHelper::RedirectWithErrorMessage('profile/admin/Feature', $exception->getMessage());
         }
         DB::commit();
-        return SettingHelper::RedirectWithSuccessMessage('Feature', 'مشخصه با موفقیت اضافه شد');
+        return SettingHelper::RedirectWithSuccessMessage('profile/admin/Feature', 'مشخصه با موفقیت اضافه شد');
     }
 
     public function create()
@@ -85,10 +85,10 @@ class FeatureController extends Controller
             features_tr::insert($date);
         }catch (Exception $exception) {
             DB::rollBack();
-            return SettingHelper::RedirectWithErrorMessage('Feature', $exception->getMessage());
+            return SettingHelper::RedirectWithErrorMessage('profile/admin/Feature', $exception->getMessage());
         }
         DB::commit();
-        return SettingHelper::RedirectWithSuccessMessage('Feature', "ویژگی با موفقیت ویرایش شد");
+        return SettingHelper::RedirectWithSuccessMessage('profile/admin/Feature', "ویژگی با موفقیت ویرایش شد");
     }
 
     public function destroy($id)

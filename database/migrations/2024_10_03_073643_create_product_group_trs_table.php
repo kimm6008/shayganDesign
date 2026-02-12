@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\languages;
+use App\Models\product_group;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,8 +12,8 @@ return new class extends Migration {
         Schema::create('product_group_trs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('languages_id');
-            $table->foreignId(\App\Models\product_group::class)->constrained();
+            $table->foreignId(languages::class)->constrained();
+            $table->foreignId(product_group::class)->constrained();
             $table->string('description')->nullable();
             $table->timestamps();
         });
